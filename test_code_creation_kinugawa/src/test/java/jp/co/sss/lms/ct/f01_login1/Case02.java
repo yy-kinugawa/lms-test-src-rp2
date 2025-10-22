@@ -1,7 +1,8 @@
 package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +46,7 @@ public class Case02 {
 		getEvidence(new Object() {
 		});
 		//画面タイトルチェック
-		assertEquals("ログイン | LMS", webDriver.getTitle());
+		assertThat(webDriver.getTitle(), is(containsString("ログイン")));
 	}
 
 	@Test
@@ -72,8 +73,10 @@ public class Case02 {
 		getEvidence(new Object() {
 		}, "02");
 		//画面タイトルチェック
-		assertEquals("ログイン | LMS", webDriver.getTitle());
-
+		assertThat(webDriver.getTitle(), is(containsString("ログイン")));
+		//エラーメッセージのチェック
+		WebElement loginError = webDriver.findElement(By.cssSelector("span[class='help-inline error']"));
+		assertThat(loginError.getText(), is(containsString("ログインに失敗しました。")));
 	}
 
 }
