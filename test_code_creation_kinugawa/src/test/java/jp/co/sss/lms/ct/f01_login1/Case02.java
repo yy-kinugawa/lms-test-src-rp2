@@ -17,7 +17,7 @@ import org.openqa.selenium.WebElement;
 /**
  * 結合テスト ログイン機能①
  * ケース02
- * @author holy
+ * @author 絹川
  */
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("ケース02 受講生 ログイン 認証失敗")
