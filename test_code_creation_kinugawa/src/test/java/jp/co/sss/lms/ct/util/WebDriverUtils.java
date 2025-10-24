@@ -32,7 +32,7 @@ public class WebDriverUtils {
 		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
 		webDriver = new ChromeDriver();
 	}
-	
+
 	/**
 	 * インスタンス終了
 	 */
@@ -48,7 +48,7 @@ public class WebDriverUtils {
 		webDriver.get(url);
 		pageLoadTimeout(5);
 	}
-	
+
 	/**
 	 * ページロードタイムアウト設定
 	 * @param second
@@ -56,7 +56,7 @@ public class WebDriverUtils {
 	public static void pageLoadTimeout(int second) {
 		webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(second));
 	}
-	
+
 	/**
 	 * 要素の可視性タイムアウト設定
 	 * @param locater
@@ -66,7 +66,7 @@ public class WebDriverUtils {
 		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(second));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locater));
 	}
-	
+
 	/**
 	 * 指定ピクセル分だけスクロール
 	 * @param pixel
@@ -75,7 +75,6 @@ public class WebDriverUtils {
 		((JavascriptExecutor) webDriver).executeScript("window.scrollBy(0," + pixel + ");");
 	}
 
-	
 	/**
 	 * 指定位置までスクロール
 	 * @param pixel
@@ -93,7 +92,13 @@ public class WebDriverUtils {
 		try {
 			String className = instance.getClass().getEnclosingClass().getSimpleName();
 			String methodName = instance.getClass().getEnclosingMethod().getName();
-			Files.move(tempFile, new File("evidence\\" + className + "_" + methodName + ".png"));
+			File folder = new File(
+					"C:\\Users\\edu\\git\\lms-test-src-rp2\\test_code_creation_kinugawa\\evidence\\" + className
+							+ "\\");
+			if (!(folder.exists())) {
+				folder.mkdir();
+			}
+			Files.move(tempFile, new File("evidence\\" + className + "\\" + methodName + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +114,13 @@ public class WebDriverUtils {
 		try {
 			String className = instance.getClass().getEnclosingClass().getSimpleName();
 			String methodName = instance.getClass().getEnclosingMethod().getName();
-			Files.move(tempFile, new File("evidence\\" + className + "_" + methodName + "_" + suffix + ".png"));
+			File folder = new File(
+					"C:\\Users\\edu\\git\\lms-test-src-rp2\\test_code_creation_kinugawa\\evidence\\" + className
+							+ "\\");
+			if (!(folder.exists())) {
+				folder.mkdir();
+			}
+			Files.move(tempFile, new File("evidence\\" + className + "\\" + methodName + "_" + suffix + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
