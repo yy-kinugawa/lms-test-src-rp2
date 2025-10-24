@@ -191,6 +191,9 @@ public class Case05 {
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "02");
+		//テキストボックスが空白かのチェック
+		WebElement inputKeyword = webDriver.findElement(By.name("keyword"));
+		assertEquals("", inputKeyword.getText());
 	}
 
 }
