@@ -200,9 +200,9 @@ public class Case08 {
 		}, "01");
 
 		//「詳細」ボタンをクリック
-		WebElement detailbutton = webDriver
+		WebElement detailButton = webDriver
 				.findElement(By.xpath("//*[@id=\"main\"]/table[3]/tbody/tr[3]/td[5]/form[1]/input[1]"));
-		detailbutton.click();
+		detailButton.click();
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "02-1");
