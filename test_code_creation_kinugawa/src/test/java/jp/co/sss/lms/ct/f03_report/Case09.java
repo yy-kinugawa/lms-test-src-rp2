@@ -295,10 +295,10 @@ public class Case09 {
 		inputAchievementLevel.sendKeys("5");
 		//2001桁の文字列
 		StringBuilder str2001 = new StringBuilder();
-		for (int i = 0; i < 2002; i++) {
+		for (int i = 0; i < 2001; i++) {
 			str2001.append("2");
 		}
-		//待ち処理(1000秒)
+		//待ち処理(1500秒)
 		pageLoadTimeout(1500);
 		//「所感」の内容修正(異常値)
 		WebElement inputImpression = webDriver.findElement(By.name("contentArray[1]"));
