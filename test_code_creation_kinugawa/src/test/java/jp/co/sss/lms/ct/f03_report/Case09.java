@@ -250,16 +250,11 @@ public class Case09 {
 
 	@Test
 	@Order(9)
-	@DisplayName("テスト09 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：目標の達成度・所感が未入力")
+	@DisplayName("テスト09 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：目標の達成度が未入力")
 	void test09() {
 		//「目標の達成度」の内容修正(異常値)
 		WebElement inputAchievementLevel = webDriver.findElement(By.name("contentArray[0]"));
 		inputAchievementLevel.clear();
-		//画面下部にスクロール
-		scrollTo("300");
-		//「所感」の内容修正(異常値)
-		WebElement inputImpression = webDriver.findElement(By.name("contentArray[1]"));
-		inputImpression.clear();
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "01");
@@ -271,7 +266,7 @@ public class Case09 {
 				.findElement(By.xpath("//*[@id=\"main\"]/form/div[3]/fieldset/div/div/button"));
 		submitButton.click();
 		//画面下部にスクロール
-		scrollTo("400");
+		scrollTo("230");
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "02");
@@ -279,20 +274,46 @@ public class Case09 {
 		WebElement inputAchievementLevelError = webDriver
 				.findElement(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[1]/div/p/span"));
 		assertThat(inputAchievementLevelError.getText(), is(containsString("目標の達成度は半角数字で入力してください。")));
-		//所感エラーメッセージチェック
-		WebElement inputImpressionError = webDriver
-				.findElement(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[2]/div/p/span"));
-		assertThat(inputImpressionError.getText(), is(containsString("所感は必須です。")));
 	}
 
 	@Test
 	@Order(10)
-	@DisplayName("テスト10 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感・一週間の振り返りが2000文字超")
+	@DisplayName("テスト10 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感が未入力")
 	void test10() {
 		//「目標の達成度」の内容修正(正常値)
 		WebElement inputAchievementLevel = webDriver.findElement(By.name("contentArray[0]"));
 		inputAchievementLevel.clear();
 		inputAchievementLevel.sendKeys("5");
+		//画面下部にスクロール
+		scrollBy("580");
+		//「所感」の内容修正(異常値)
+		WebElement inputImpression = webDriver.findElement(By.name("contentArray[1]"));
+		inputImpression.clear();
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "01");
+
+		//「提出する」ボタン押下
+		WebElement submitButton = webDriver
+				.findElement(By.xpath("//*[@id=\"main\"]/form/div[3]/fieldset/div/div/button"));
+		submitButton.click();
+		//画面下部にスクロール
+		scrollTo("580");
+		//待ち処理
+		visibilityTimeout(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[2]/div/p/span"), 100);
+		//所感エラーメッセージチェック
+		WebElement inputImpressionError = webDriver
+				.findElement(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[2]/div/p/span"));
+		assertThat(inputImpressionError.getText(), is(containsString("所感は必須です。")));
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "02");
+	}
+
+	@Test
+	@Order(11)
+	@DisplayName("テスト11 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感が2000文字超")
+	void test11() {
 		//2001桁の文字列
 		StringBuilder str2001 = new StringBuilder();
 		for (int i = 0; i < 2001; i++) {
@@ -304,15 +325,12 @@ public class Case09 {
 		WebElement inputImpression = webDriver.findElement(By.name("contentArray[1]"));
 		inputImpression.clear();
 		inputImpression.sendKeys(str2001);
-		//「一週間の振り返り」の内容修正(異常値)
-		WebElement inputWeek = webDriver.findElement(By.xpath("//*[@id=\"content_2\"]"));
-		inputWeek.clear();
-		inputWeek.sendKeys(str2001);
 		//画面下部にスクロール
 		scrollBy("580");
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "01");
+
 		//「提出する」ボタン押下
 		WebElement submitButton = webDriver
 				.findElement(By.xpath("//*[@id=\"main\"]/form/div[3]/fieldset/div/div/button"));
@@ -326,10 +344,47 @@ public class Case09 {
 		WebElement inputImpressionError = webDriver
 				.findElement(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[2]/div/p/span"));
 		assertThat(inputImpressionError.getText(), is(containsString("所感の長さが最大値(2000)を超えています。")));
+	}
+
+	@Test
+	@Order(12)
+	@DisplayName("テスト12 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：一週間の振り返りが2000文字超")
+	void test12() {
+		//2001桁の文字列
+		StringBuilder str2001 = new StringBuilder();
+		for (int i = 0; i < 2001; i++) {
+			str2001.append("2");
+		}
+		//待ち処理(1500秒)
+		pageLoadTimeout(1500);
+		//「所感」の内容修正(正常値)
+		WebElement inputImpression = webDriver.findElement(By.name("contentArray[1]"));
+		inputImpression.clear();
+		inputImpression.sendKeys("週報のサンプルです。");
+		//「一週間の振り返り」の内容修正(異常値)
+		WebElement inputWeek = webDriver.findElement(By.xpath("//*[@id=\"content_2\"]"));
+		inputWeek.clear();
+		inputWeek.sendKeys(str2001);
+		//画面下部にスクロール
+		scrollBy("580");
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "01");
+
+		//「提出する」ボタン押下
+		WebElement submitButton = webDriver
+				.findElement(By.xpath("//*[@id=\"main\"]/form/div[3]/fieldset/div/div/button"));
+		submitButton.click();
+		//画面下部にスクロール
+		scrollTo("580");
+		//待ち処理
+		visibilityTimeout(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[3]/div/p/span"), 100);
 		//一週間の振り返りエラーメッセージチェック
 		WebElement inputWeekError = webDriver
 				.findElement(By.xpath("//*[@id=\"main\"]/form/div[2]/fieldset/div[3]/div/p/span"));
 		assertThat(inputWeekError.getText(), is(containsString("一週間の振り返りの長さが最大値(2000)を超えています。")));
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "02");
 	}
-
 }
