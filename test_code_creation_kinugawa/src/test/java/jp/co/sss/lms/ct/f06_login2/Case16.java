@@ -249,7 +249,7 @@ public class Case16 {
 		WebElement inputCurrentPassword = webDriver.findElement(By.name("currentPassword"));
 		inputCurrentPassword.clear();
 		inputCurrentPassword.sendKeys("StudentAA01");
-		//新しいパスワード入力(異常値)
+		//新しいパスワード入力(正常値)
 		WebElement inputNewPassword = webDriver.findElement(By.name("password"));
 		inputNewPassword.clear();
 		inputNewPassword.sendKeys("ItTest2025");
