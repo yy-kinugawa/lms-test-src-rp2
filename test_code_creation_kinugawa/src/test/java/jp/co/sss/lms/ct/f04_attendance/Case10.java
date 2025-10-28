@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.jupiter.api.AfterAll;
@@ -113,8 +114,13 @@ public class Case10 {
 		}, "01");
 		//現在時刻の取得
 		Date now = new Date();
+		//誤差を考慮し1秒後の時刻も設定
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(now);
+		calender.add(Calendar.SECOND, 1);
+		Date oneSecondLater = calender.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-		String nowTime = sdf.format(now);
+		String attendanceTime = sdf.format(now) + sdf.format(oneSecondLater);
 		//「出勤」ボタンをクリック
 		WebElement attendanceButton = webDriver.findElement(By.name("punchIn"));
 		attendanceButton.click();
@@ -129,7 +135,7 @@ public class Case10 {
 		//出勤表示チェック
 		WebElement attendanceDate = webDriver
 				.findElement(By.xpath("//tbody/tr[2]/td[3]"));
-		assertThat(nowTime, is(containsString(attendanceDate.getText())));
+		assertThat(attendanceTime, is(containsString(attendanceDate.getText())));
 	}
 
 	@Test
@@ -141,8 +147,13 @@ public class Case10 {
 		}, "01");
 		//現在時刻の取得
 		Date now = new Date();
+		//誤差を考慮し1秒後の時刻も設定
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(now);
+		calender.add(Calendar.SECOND, 1);
+		Date oneSecondLater = calender.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-		String nowTime = sdf.format(now);
+		String leavingTime = sdf.format(now) + sdf.format(oneSecondLater);
 
 		//「退勤」ボタンをクリック
 		WebElement leavingButton = webDriver.findElement(By.name("punchOut"));
@@ -158,7 +169,7 @@ public class Case10 {
 		//退勤表示チェック
 		WebElement leavingDate = webDriver
 				.findElement(By.xpath("//tbody/tr[2]/td[4]"));
-		assertThat(nowTime, is(containsString(leavingDate.getText())));
+		assertThat(leavingTime, is(containsString(leavingDate.getText())));
 	}
 
 }
