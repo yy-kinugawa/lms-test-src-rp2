@@ -187,7 +187,7 @@ public class Case13 {
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 「回答を送信する」ボタンを押下し試験結果画面に遷移")
-	void test07() throws InterruptedException {
+	void test07() {
 		//待ち処理(100秒)
 		visibilityTimeout(By.id("remainTime"), 100);
 		//画面下部にスクロール
