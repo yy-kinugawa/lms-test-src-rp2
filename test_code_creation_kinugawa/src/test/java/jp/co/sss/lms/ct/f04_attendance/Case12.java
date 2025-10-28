@@ -126,27 +126,27 @@ public class Case12 {
 	void test05() {
 		//待ち処理(500秒)
 		pageLoadTimeout(500);
-		// 「2025年10月26日(日)」の入力
+		// 「2025年10月26日(日)」の入力(出勤時刻異常値)
 		//出勤時刻
-		final Select selectAttendanceHour = new Select(
+		final Select selectAttendanceHour01 = new Select(
 				webDriver.findElement(By.name("attendanceList[0].trainingStartTimeHour")));
-		selectAttendanceHour.selectByValue("9");
-		final Select selectAttendanceMinute = new Select(
+		selectAttendanceHour01.selectByValue("9");
+		final Select selectAttendanceMinute01 = new Select(
 				webDriver.findElement(By.name("attendanceList[0].trainingStartTimeMinute")));
-		selectAttendanceMinute.selectByValue("");
+		selectAttendanceMinute01.selectByValue("");
 		//退勤時刻
-		final Select selectLeavingHour = new Select(
+		final Select selectLeavingHour01 = new Select(
 				webDriver.findElement(By.name("attendanceList[0].trainingEndTimeHour")));
-		selectLeavingHour.selectByValue("");
-		final Select selectLeavingMinute = new Select(
+		selectLeavingHour01.selectByValue("18");
+		final Select selectLeavingMinute01 = new Select(
 				webDriver.findElement(By.name("attendanceList[0].trainingEndTimeMinute")));
-		selectLeavingMinute.selectByValue("0");
+		selectLeavingMinute01.selectByValue("0");
 		//中抜け時間
-		final Select stepOutTime = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
-		stepOutTime.selectByValue("");
+		final Select stepOutTime01 = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
+		stepOutTime01.selectByValue("");
 		//備考
-		WebElement inputRemarks = webDriver.findElement(By.name("attendanceList[0].note"));
-		inputRemarks.clear();
+		WebElement inputRemarks01 = webDriver.findElement(By.name("attendanceList[0].note"));
+		inputRemarks01.clear();
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "01");
@@ -154,11 +154,11 @@ public class Case12 {
 		//画面下部にスクロール
 		scrollBy("560");
 		//「更新」ボタン押下
-		WebElement updateButton = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/form/div/input"));
-		updateButton.click();
+		WebElement updateButton01 = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/form/div/input"));
+		updateButton01.click();
 		//モーダルの「OK」ボタンをクリック
-		Alert alert = webDriver.switchTo().alert();
-		alert.accept();
+		Alert alert01 = webDriver.switchTo().alert();
+		alert01.accept();
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "02");
@@ -167,8 +167,47 @@ public class Case12 {
 		//出勤エラーメッセージチェック
 		WebElement attendanceError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li[1]/span"));
 		assertThat(attendanceError.getText(), is(containsString("出勤時間が正しく入力されていません。")));
+
+		// 「2025年10月26日(日)」の入力(出勤時刻異常値)
+		//出勤時刻
+		final Select selectAttendanceHour02 = new Select(
+				webDriver.findElement(By.name("attendanceList[0].trainingStartTimeHour")));
+		selectAttendanceHour02.selectByValue("9");
+		final Select selectAttendanceMinute02 = new Select(
+				webDriver.findElement(By.name("attendanceList[0].trainingStartTimeMinute")));
+		selectAttendanceMinute02.selectByValue("0");
+		//退勤時刻
+		final Select selectLeavingHour02 = new Select(
+				webDriver.findElement(By.name("attendanceList[0].trainingEndTimeHour")));
+		selectLeavingHour02.selectByValue("");
+		final Select selectLeavingMinute02 = new Select(
+				webDriver.findElement(By.name("attendanceList[0].trainingEndTimeMinute")));
+		selectLeavingMinute02.selectByValue("0");
+		//中抜け時間
+		final Select stepOutTime02 = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
+		stepOutTime02.selectByValue("");
+		//備考
+		WebElement inputRemarks02 = webDriver.findElement(By.name("attendanceList[0].note"));
+		inputRemarks02.clear();
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "03");
+
+		//画面下部にスクロール
+		scrollBy("560");
+		//「更新」ボタン押下
+		WebElement updateButton02 = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/form/div/input"));
+		updateButton02.click();
+		//モーダルの「OK」ボタンをクリック
+		Alert alert02 = webDriver.switchTo().alert();
+		alert02.accept();
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "04");
+		//画面タイトルチェック
+		assertThat(webDriver.getTitle(), is(containsString("勤怠情報変更")));
 		//退勤エラーメッセージチェック
-		WebElement leavingError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li[2]/span"));
+		WebElement leavingError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li[1]/span"));
 		assertThat(leavingError.getText(), is(containsString("退勤時間が正しく入力されていません。")));
 
 	}
@@ -266,7 +305,7 @@ public class Case12 {
 		}, "02");
 		//画面タイトルチェック
 		assertThat(webDriver.getTitle(), is(containsString("勤怠情報変更")));
-		//出勤エラーメッセージチェック
+		//退勤エラーメッセージチェック
 		WebElement attendanceError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li[1]/span"));
 		assertThat(attendanceError.getText(), is(containsString("退勤時刻[0]は出勤時刻[0]より後でなければいけません。")));
 	}
@@ -315,7 +354,7 @@ public class Case12 {
 		}, "02");
 		//画面タイトルチェック
 		assertThat(webDriver.getTitle(), is(containsString("勤怠情報変更")));
-		//出勤エラーメッセージチェック
+		//中抜け時間エラーメッセージチェック
 		WebElement stepOutError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li/span"));
 		assertThat(stepOutError.getText(), is(containsString("中抜け時間が勤務時間を超えています。")));
 	}
@@ -370,7 +409,7 @@ public class Case12 {
 		}, "02");
 		//画面タイトルチェック
 		assertThat(webDriver.getTitle(), is(containsString("勤怠情報変更")));
-		//出勤エラーメッセージチェック
+		//備考エラーメッセージチェック
 		WebElement remarkError = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div/div/ul/li/span"));
 		assertThat(remarkError.getText(), is(containsString("備考の長さが最大値(100)を超えています。")));
 	}
