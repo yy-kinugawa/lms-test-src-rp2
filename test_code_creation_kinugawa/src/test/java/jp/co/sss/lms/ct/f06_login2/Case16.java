@@ -96,11 +96,13 @@ public class Case16 {
 		//「次へ」ボタンを押下
 		WebElement nextButton = webDriver.findElement(By.xpath("//*[@id=\"main\"]/div[2]/form/fieldset/div[2]/button"));
 		nextButton.click();
+		//待ち処理(100秒)
+		pageLoadTimeout(20);
+		//画面タイトルチェック
+		assertThat(webDriver.getTitle(), is(containsString("パスワード変更")));
 		//エビデンス取得
 		getEvidence(new Object() {
 		}, "02");
-		//画面タイトルチェック
-		assertThat(webDriver.getTitle(), is(containsString("パスワード変更")));
 	}
 
 	@Test
@@ -108,41 +110,105 @@ public class Case16 {
 	@DisplayName("テスト04 パスワードを未入力で「変更」ボタン押下")
 	void test04() {
 		//現在のパスワード入力(異常値)
-		WebElement inputCurrentPassword = webDriver.findElement(By.name("currentPassword"));
-		inputCurrentPassword.clear();
-		//新しいパスワード入力(異常値)
-		WebElement inputNewPassword = webDriver.findElement(By.name("password"));
-		inputNewPassword.clear();
+		WebElement inputCurrentPassword01 = webDriver.findElement(By.name("currentPassword"));
+		inputCurrentPassword01.clear();
+		//新しいパスワード入力(正常値)
+		WebElement inputNewPassword01 = webDriver.findElement(By.name("password"));
+		inputNewPassword01.clear();
+		inputNewPassword01.sendKeys("ItTest2025");
 		//画面下部にスクロール
 		scrollBy("250");
-		//確認パスワード入力(異常値)
-		WebElement inputPasswordConfirm = webDriver.findElement(By.name("passwordConfirm"));
-		inputPasswordConfirm.clear();
+		//確認パスワード入力(正常値)
+		WebElement inputPasswordConfirm01 = webDriver.findElement(By.name("passwordConfirm"));
+		inputPasswordConfirm01.clear();
+		inputPasswordConfirm01.sendKeys("ItTest2025");
 		//エビデンス取得
 		getEvidence(new Object() {
-		}, "01");
+		}, "01-1");
 
 		//「変更」ボタン押下
-		WebElement changeButton = webDriver
+		WebElement changeButton01 = webDriver
 				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[4]/div/button[2]"));
-		changeButton.click();
+		changeButton01.click();
 		//モーダルの「変更」ボタンをクリック
-		WebElement modalChangeButton = webDriver.findElement(By.id("upd-btn"));
-		JavascriptExecutor executor = (JavascriptExecutor) webDriver;
-		executor.executeScript("arguments[0].click();", modalChangeButton);
+		WebElement modalChangeButton01 = webDriver.findElement(By.id("upd-btn"));
+		JavascriptExecutor executor01 = (JavascriptExecutor) webDriver;
+		executor01.executeScript("arguments[0].click();", modalChangeButton01);
 		//エビデンス取得
 		getEvidence(new Object() {
-		}, "02");
+		}, "01-2");
 		//画面タイトルチェック
 		assertThat(webDriver.getTitle(), is(containsString("パスワード変更")));
 		//現在のパスワードエラーメッセージチェック
 		WebElement currentPasswordError = webDriver
 				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[1]/div/ul/li/span"));
 		assertThat(currentPasswordError.getText(), is(containsString("現在のパスワードは必須です。")));
+
+		//現在のパスワード入力(正常値)
+		WebElement inputCurrentPassword02 = webDriver.findElement(By.name("currentPassword"));
+		inputCurrentPassword02.clear();
+		inputCurrentPassword02.sendKeys("StudentAA01");
+		//新しいパスワード入力(異常値)
+		WebElement inputNewPassword02 = webDriver.findElement(By.name("password"));
+		inputNewPassword02.clear();
+		//画面下部にスクロール
+		scrollBy("250");
+		//確認パスワード入力(正常値)
+		WebElement inputPasswordConfirm02 = webDriver.findElement(By.name("passwordConfirm"));
+		inputPasswordConfirm02.clear();
+		inputPasswordConfirm02.sendKeys("ItTest2025");
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "02-1");
+
+		//「変更」ボタン押下
+		WebElement changeButton02 = webDriver
+				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[4]/div/button[2]"));
+		changeButton02.click();
+		//モーダルの「変更」ボタンをクリック
+		WebElement modalChangeButton02 = webDriver.findElement(By.id("upd-btn"));
+		JavascriptExecutor executor02 = (JavascriptExecutor) webDriver;
+		executor02.executeScript("arguments[0].click();", modalChangeButton02);
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "02-2");
+		//画面タイトルチェック
+		assertThat(webDriver.getTitle(), is(containsString("パスワード変更")));
 		//新しいパスワードエラーメッセージチェック
 		WebElement newPasswordError = webDriver
 				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[2]/div/ul/li/span"));
 		assertThat(newPasswordError.getText(), is(containsString("パスワードは必須です。")));
+
+		//現在のパスワード入力(正常値)
+		WebElement inputCurrentPassword03 = webDriver.findElement(By.name("currentPassword"));
+		inputCurrentPassword03.clear();
+		inputCurrentPassword03.sendKeys("StudentAA01");
+		//新しいパスワード入力(正常値)
+		WebElement inputNewPassword03 = webDriver.findElement(By.name("password"));
+		inputNewPassword03.clear();
+		inputNewPassword03.sendKeys("ItTest2025");
+		//画面下部にスクロール
+		scrollBy("250");
+		//確認パスワード入力(異常値)
+		WebElement inputPasswordConfirm03 = webDriver.findElement(By.name("passwordConfirm"));
+		inputPasswordConfirm03.clear();
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "03-1");
+
+		//「変更」ボタン押下
+		WebElement changeButton03 = webDriver
+				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[4]/div/button[2]"));
+		changeButton03.click();
+		//モーダルの「変更」ボタンをクリック
+		WebElement modalChangeButton03 = webDriver.findElement(By.id("upd-btn"));
+		JavascriptExecutor executor03 = (JavascriptExecutor) webDriver;
+		executor03.executeScript("arguments[0].click();", modalChangeButton03);
+		//エビデンス取得
+		getEvidence(new Object() {
+		}, "03-2");
+		//画面タイトルチェック
+		assertThat(webDriver.getTitle(), is(containsString("パスワード変更")));
 		//確認パスワードエラーメッセージチェック
 		WebElement passwordConfirmError = webDriver
 				.findElement(By.xpath("//*[@id=\"upd-form\"]/div[1]/fieldset/div[3]/div/ul/li/span"));
